@@ -69,9 +69,15 @@ class Play:
         self.quiz_box = Toplevel()
         
         # List holder (rounds and scores are placeholders)
-        rounds = "1"
-        rounds_cap = "1"
-        score = "1"
+        score = ""
+
+        # Variables used to work out statistics, when game ends etc
+        self.rounds_wanted = IntVar()
+        self.rounds_wanted.set(how_many)
+
+        # Initially set rounds played and rounds won to 0
+        self.rounds_played = IntVar()
+        self.rounds_played.set(0)
          
         # common format for all buttons
         # Arial size 14 bold, with white text
@@ -86,7 +92,7 @@ class Play:
         self.heading_frame = Frame(self.main_frame)
         self.heading_frame.grid(row=0, column=0)
         
-        self.rounds_heading = Label(self.heading_frame, text="Round {} / {}".format(rounds, rounds_cap), font=("Arial", "16", "bold"), justify=LEFT, anchor=W)
+        self.rounds_heading = Label(self.heading_frame, text="Round 1 / {}".format(how_many), font=("Arial", "16", "bold"), justify=LEFT, anchor=W)
         self.rounds_heading.grid(row=0, sticky=W, padx=20)
 
         self.score_heading = Label(self.heading_frame, text="Score: {}".format(score), font=("Arial", "12", "bold"), justify=LEFT, anchor=W)
@@ -104,7 +110,7 @@ class Play:
         
         for item in range (0, 4):
             
-            self.choice_button = Button(self.choice_frame, width=15, height=2, text="")
+            self.choice_button = Button(self.choice_frame, width=15, height=2, text="", command=lambda i=item: self.to_compare(self.button_countries_list[i], i))
 
             # Add button to reference list for later configuration
             self.choice_button_ref.append(self.choice_button)
@@ -164,8 +170,10 @@ class Play:
         # Generate correct answer and fisplay flag
         chosen_flag = random.choice(self.all_flags) 
         index_chosen = self.all_flags.index(chosen_flag)
-        correct_ans = chosen_flag[0]
-        all_answers.append(correct_ans)
+        self.correct_ans = chosen_flag[0]
+        all_answers.append(self.correct_ans)
+        
+        print("Correct Answer:", self.correct_ans)
         
         # Display flag image
         flag_image = self.resize_flag(chosen_flag)
@@ -182,11 +190,14 @@ class Play:
                 
                 # Remove item from master list (so there are no duplicate flags)
                 self.all_flags.pop(index_chosen)
+                
+        # Shuffle list
+        random.shuffle(all_answers)
         
         return all_answers
         
     # Set up new round when 'next' button is pressed
-    def new_round(self):
+    def new_round(self):  
         
         # disable next button (renable it at the end of the round
         # self.next_button.config(state=DISABLED)
@@ -197,15 +208,51 @@ class Play:
         # set button bg, fg and text
         count = 0 
         for item in self.choice_button_ref:
+            item['bg'] = "white"
             item['text'] = self.button_countries_list[count]
             item['state'] = NORMAL
 
-            count += 1
+            count += 1 
+            
+        # retrieve number of rounds wanted / played and update heading.
+        how_many = self.rounds_wanted.get()
+        current_round = self.rounds_played.get()
+        new_heading = "Round {} of {}".format(current_round + 1, how_many)
+        self.rounds_heading.config(text=new_heading)
         
-
+        # Add one to number of rounds played
+        current_round = self.rounds_played.get()
+        current_round += 1
+        self.rounds_played.set(current_round)
+        
+    def to_compare(self, user_choice, button_num):
+        
+        # # enable stats button
+        # self.to_stats_btn.config(state=NORMAL)
+        
+        # remove user choice from button colours list
+        to_remove = self.button_countries_list.index(user_choice)
+        self.button_countries_list.pop(to_remove)
+        
+        if user_choice == self.correct_ans:
+            self.choice_button_ref[button_num].config(bg="green")
+        
+        else:
+            
+            for item in self.choice_button_ref:
+                
+                
+                if item == self.correct_ans:
+                    self.choice_button_ref[button_num].config(bg="green")
+                    
+                else:
+                    self.choice_button_ref[button_num].config(bg="red")
+                    
+                    
+    
 # main routine
 if __name__ == "__main__":
-    root = Tk() 
+    root = Tk()     
     root.title("Country Flag Quiz")
     ChooseRounds()
     root.mainloop()
