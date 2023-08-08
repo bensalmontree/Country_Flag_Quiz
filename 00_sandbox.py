@@ -194,6 +194,8 @@ class Play:
         # Shuffle list
         random.shuffle(all_answers)
         
+        print("Countries:", all_answers)
+        
         return all_answers
         
     # Set up new round when 'next' button is pressed
@@ -234,19 +236,29 @@ class Play:
         to_remove = self.button_countries_list.index(user_choice)
         self.button_countries_list.pop(to_remove)
         
+        # If button pressed is the correct answer, change button colour to green
         if user_choice == self.correct_ans:
-            self.choice_button_ref[button_num].config(bg="green")
+            self.choice_button_ref[button_num].config(bg="#7CC671")
         
+        # Otherwise find the correct answer
         else:
             
+            count = 0
             for item in self.choice_button_ref:
                 
+                # Retrieve text from button
+                button_text = self.choice_button_ref[count].cget('text')
+                print(button_text)
                 
-                if item == self.correct_ans:
-                    self.choice_button_ref[button_num].config(bg="green")
-                    
+                # Check if answer is correct (Button = red if wrong)
+                if button_text != self.correct_ans:
+                     self.choice_button_ref[count].config(bg="#D21F3C")
+                
+                # Button = green if right
                 else:
-                    self.choice_button_ref[button_num].config(bg="red")
+                    self.choice_button_ref[count].config(bg="#7CC671")
+                         
+                count += 1
                     
                     
     
