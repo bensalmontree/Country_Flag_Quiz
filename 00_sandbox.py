@@ -70,10 +70,13 @@ class Play:
         
         # List holder (rounds and scores are placeholders)
         score = ""
-
-        # Variables used to work out statistics, when game ends etc
+        
+        # Variables used to work out end screen
         self.rounds_wanted = IntVar()
         self.rounds_wanted.set(how_many)
+
+        self.rounds_won = IntVar()
+        self.rounds_won.set(0)
 
         # Initially set rounds played and rounds won to 0
         self.rounds_played = IntVar()
@@ -200,9 +203,9 @@ class Play:
         
     # Set up new round when 'next' button is pressed
     def new_round(self):  
-        
-        # disable next button (renable it at the end of the round
-        # self.next_button.config(state=DISABLED)
+
+        # Disable next button (renable it at the end of the round
+        self.next_button.config(state=DISABLED)
         
         # empty button list so we an get new countries
         self.button_countries_list = self.get_round_flag()
@@ -222,26 +225,31 @@ class Play:
         new_heading = "Round {} of {}".format(current_round + 1, how_many)
         self.rounds_heading.config(text=new_heading)
         
+
+        
+    def to_compare(self, user_choice, button_num):
+        
+        how_many = self.rounds_wanted.get()
+
         # Add one to number of rounds played
         current_round = self.rounds_played.get()
         current_round += 1
         self.rounds_played.set(current_round)
         
-    def to_compare(self, user_choice, button_num):
-        
-        # # enable stats button
-        # self.to_stats_btn.config(state=NORMAL)
-        
         # remove user choice from button colours list
         to_remove = self.button_countries_list.index(user_choice)
         self.button_countries_list.pop(to_remove)
         
-        # If button pressed is the correct answer, change button colour to green
+        # If button pressed is the correct answer, change button colour to GREEN
         if user_choice == self.correct_ans:
+            
             self.choice_button_ref[button_num].config(bg="#7CC671")
         
         # Otherwise find the correct answer
         else:
+            
+            # If button pressed is NOT the correct answer, change button colour to RED
+            self.choice_button_ref[button_num].config(bg="#D21F3C")
             
             count = 0
             for item in self.choice_button_ref:
@@ -251,14 +259,18 @@ class Play:
                 print(button_text)
                 
                 # Check if answer is correct (Button = red if wrong)
-                if button_text != self.correct_ans:
-                     self.choice_button_ref[count].config(bg="#D21F3C")
-                
-                # Button = green if right
-                else:
-                    self.choice_button_ref[count].config(bg="#7CC671")
+                if button_text == self.correct_ans:
+                     self.choice_button_ref[count].config(bg="#7CC671")
                          
                 count += 1
+    
+        # If game is over go to end screen
+        if current_round == how_many:
+            print("END GAME")
+            
+        else:
+            # enable next round button and update heading
+            self.next_button.config(state=NORMAL)
                     
                     
     
