@@ -87,7 +87,7 @@ class Play:
         button_font = ("Arial", "12", "bold")
         button_fg = "#FFFFFF"
         
-        # Main frame
+        # Main frame1
         self.main_frame = Frame(self.quiz_box)
         self.main_frame.grid(padx=10, pady=10)
         
