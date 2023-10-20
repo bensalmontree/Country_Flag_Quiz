@@ -62,7 +62,7 @@ class Play:
         self.all_flags.pop(index_chosen)
 
         
-# main routine  
+# main routine      
 if __name__ == "__main__":
     root = Tk()         
     root.title("Country Flag Quiz")

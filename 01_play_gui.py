@@ -24,7 +24,7 @@ class Play:
 
         self.score_heading = Label(self.main_frame, text="Score: {}".format(score), justify=LEFT, anchor=W)
         self.score_heading.grid(row=1, sticky=W)
-        
+                
         # Seperate frame for buttons
         self.choice_frame = Frame(self.main_frame)  
         self.choice_frame.grid(row=2)

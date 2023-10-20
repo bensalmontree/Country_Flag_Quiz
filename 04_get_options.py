@@ -19,8 +19,8 @@ all_answers.append(answer)
 while len(all_answers) < 4:
     wrong_choice_entry = random.choice(all_flags)
     wrong_choice = wrong_choice_entry[0]
-    if wrong_choice not in all_answers:
+    if wrong_choice not in all_answers: 
         all_answers.append(wrong_choice)
         
 print("pre shuffle", all_answers)
-                                                                        
+                                                                            

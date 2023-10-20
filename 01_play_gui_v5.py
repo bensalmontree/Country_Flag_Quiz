@@ -6,7 +6,7 @@ import random
 
 class Play:
     
-    def __init__(self):
+    def __init__(self): 
         
         # placeholder
         rounds = "1"

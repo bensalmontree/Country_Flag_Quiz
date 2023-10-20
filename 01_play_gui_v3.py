@@ -42,7 +42,7 @@ class Play:
         self.flag_frame.grid(row=0, column=1)
         
         # Display flag
-        self.flag_display = ImageTk.PhotoImage(Image.open("Country_Flag_Quiz/flag_images/NP-flag.gif").resize((150,100), Image.ANTIALIAS))
+        self.flag_display = ImageTk.PhotoImage(Image.open("Country_Flag_Quiz/flag_images/CN-flag.gif").resize((150,100), Image.ANTIALIAS))
         flag_label = Label(self.flag_frame, image=self.flag_display)
         flag_label.photo = self.flag_display
         flag_label.grid(row=0, rowspan=2, column=1, padx=10, pady=10)

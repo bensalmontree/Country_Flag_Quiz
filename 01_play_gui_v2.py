@@ -5,7 +5,7 @@ class Play:
     
     def __init__(self):
         
-        # placeholder
+        # placeholder   
         rounds = "1"
         rounds_cap = "1"
         score = "1"
@@ -17,7 +17,7 @@ class Play:
         
         # Main frame
         self.main_frame = Frame()
-        self.main_frame.grid(padx=10, pady=10)
+        self.main_frame.grid(padx=10, pady=10)  
         
         # Frame for Round and Score
         self.heading_frame = Frame(self.main_frame)
